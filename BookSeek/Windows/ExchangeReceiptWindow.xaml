@@ -1,0 +1,190 @@
+﻿<Window x:Class="BookSeek.Windows.ExchangeReceiptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookSeek.Windows"
+        mc:Ignorable="d"
+        Title="Exchange Receipt" Width="500"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="Height">
+    <Grid x:Name="ReceiptContainer">
+        <Border
+            BorderThickness="1"
+            BorderBrush="Black"
+            Margin="10"
+            >
+            <Grid x:Name="ReceiptContent" Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Image 
+                    Height="70" 
+                    Grid.Row="0" 
+                    Source="pack://application:,,,/Images/Others/book-seek-black.png" />
+
+                <StackPanel x:Name="HeaderDetailsSection" Grid.Row="1" Margin="0, 15, 0, 0">
+                    <Label Style="{StaticResource ReceiptLabel}">
+                        30 Capt. C. Nazareno St. Naic Cavite
+                    </Label>
+                    <Label Style="{StaticResource ReceiptLabel}">
+                        Mobile Number: +63 907 849 094 / +63 956 392 8483
+                    </Label>
+                    <Label Style="{StaticResource ReceiptLabel}">
+                        Email: book.seek.naic@gmail.com
+                    </Label>
+                    <Label Style="{StaticResource ReceiptLabel}">
+                        <Bold>Exchange Receipt</Bold> 
+                    </Label>
+
+                    <Grid Margin="0, 15, 0, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="0.2*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Style="{StaticResource ReceiptLabel}">
+                            <Bold>OR No.:</Bold>
+                        </Label>
+                        <Label x:Name="OrderNumberLabel" Grid.Column="1" />
+
+                        <Label Grid.Column="3" Style="{StaticResource ReceiptLabel}">
+                            <Bold>Date:</Bold>
+                        </Label>
+                        <Label 
+                            x:Name="TransactionDate" 
+                            Grid.Column="4" 
+                            Style="{StaticResource ReceiptLabel}" />
+                    </Grid>
+                </StackPanel><!-- HeaderDetailsSection -->
+
+                <DataGrid 
+                    x:Name="TransactionDataGrid" 
+                    Grid.Row="2" 
+                    IsReadOnly="True" 
+                    Margin="0, 15" 
+                    Foreground="Black"
+                    Background="White"
+                    RowStyle="{StaticResource PlainDataGridRow}"
+                    VerticalScrollBarVisibility="Disabled"
+                    >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                                Header="Item"
+                                Width="*" 
+                                Binding="{Binding Item, Mode=TwoWay}"
+                                HeaderStyle="{StaticResource PlainDataGridColumnheader}"
+                                >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn 
+                            Header="Quantity" 
+                            Binding="{Binding Quantity}" 
+                            HeaderStyle="{StaticResource PlainDataGridColumnheader}" />
+                        <DataGridTextColumn 
+                            Header="Price" 
+                            Binding="{Binding Price}" 
+                            HeaderStyle="{StaticResource PlainDataGridColumnheader}" />
+                        <DataGridTextColumn 
+                            Header="Amount" 
+                            Width="*" 
+                            Binding="{Binding Amount}" 
+                            HeaderStyle="{StaticResource PlainDataGridColumnheader}" />
+                    </DataGrid.Columns>
+                </DataGrid><!-- TransactionDataGrid -->
+
+                <Grid x:Name="FooterSection" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Charge Prepaid:
+                    </Label>
+                    <Label x:Name="BudgetLabel" Grid.Row="0" Grid.Column="1" FontFamily="Consolas" />
+
+                    <Label 
+                        Grid.Row="1" 
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Total Amount:
+                    </Label>
+                    <Label x:Name="TotalAmountLabel" Grid.Row="1" Grid.Column="1" FontFamily="Consolas" />
+
+                    <Label 
+                        Grid.Row="2" 
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Additional Required:
+                    </Label>
+                    <Label x:Name="AdditionalRequiredLabel" Grid.Row="2" Grid.Column="1" FontFamily="Consolas" />
+
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Cash:
+                    </Label>
+                    <Label x:Name="CashLabel" Grid.Row="3" Grid.Column="1" FontFamily="Consolas" />
+
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Change:
+                    </Label>
+                    <Label x:Name="ChangeLabel" Grid.Row="4" Grid.Column="1" FontFamily="Consolas" />
+
+                    <Label
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Style="{StaticResource FieldLabel}" 
+                        Foreground="Black"
+                        >
+                        Total Number of Books:
+                    </Label>
+                    <Label 
+                        x:Name="TotalNumberOfBooksLabel" 
+                        Grid.Row="5" 
+                        Grid.Column="1" 
+                        FontFamily="Consolas" />
+                </Grid><!-- FooterSection -->
+            </Grid><!-- ReceiptContent -->
+        </Border>
+    </Grid><!-- ReceiptContainer -->
+</Window>

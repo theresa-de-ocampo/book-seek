@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BookSeekModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Isbn" />
+          </Key>
+          <Property Name="Isbn" Type="char" MaxLength="13" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Author" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Publisher" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="DateOfPublication" Type="date" Nullable="false" />
+          <Property Name="BookQuantityOnHand" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="BookStatus" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ledger">
+          <Key>
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="TrackId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackTag" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="Isbn" Type="char" MaxLength="13" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransactionDateTime" Type="datetime" Nullable="false" />
+          <Property Name="SaleStatus" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Cash" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Change" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ChargePrepaid" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AdditionalRequired" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Sale_Book">
+          <Key>
+            <PropertyRef Name="SaleId" />
+            <PropertyRef Name="Isbn" />
+          </Key>
+          <Property Name="SaleId" Type="int" Nullable="false" />
+          <Property Name="Isbn" Type="char" MaxLength="13" Nullable="false" />
+          <Property Name="BookQuantitySold" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Ledger_Isbn">
+          <End Role="Book" Type="Self.Book" Multiplicity="0..1" />
+          <End Role="Ledger" Type="Self.Ledger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Isbn" />
+            </Principal>
+            <Dependent Role="Ledger">
+              <PropertyRef Name="Isbn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Book_Isbn">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Sale_Book" Type="Self.Sale_Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Isbn" />
+            </Principal>
+            <Dependent Role="Sale_Book">
+              <PropertyRef Name="Isbn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Book_SaleId">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sale_Book" Type="Self.Sale_Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="SaleId" />
+            </Principal>
+            <Dependent Role="Sale_Book">
+              <PropertyRef Name="SaleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookSeekModelStoreContainer">
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ledger" EntityType="Self.Ledger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sale" EntityType="Self.Sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sale_Book" EntityType="Self.Sale_Book" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ledger_Isbn" Association="Self.FK_Ledger_Isbn">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Ledger" EntitySet="Ledger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Book_Isbn" Association="Self.FK_Sale_Book_Isbn">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Sale_Book" EntitySet="Sale_Book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Book_SaleId" Association="Self.FK_Sale_Book_SaleId">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="Sale_Book" EntitySet="Sale_Book" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookSeekModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Isbn" />
+          </Key>
+          <Property Name="Isbn" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Publisher" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfPublication" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Sale_Book" Relationship="Self.FK_Sale_Book_Isbn" FromRole="Book" ToRole="Sale_Book" />
+          <Property Name="BookQuantityOnHand" Type="Int32" Nullable="false" />
+          <Property Name="Author" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BookStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Ledger" Relationship="BookSeekModel.FK_Ledger_Isbn" FromRole="Book" ToRole="Ledger" />
+        </EntityType>
+        <EntityType Name="Sale_Book">
+          <Key>
+            <PropertyRef Name="SaleId" />
+            <PropertyRef Name="Isbn" />
+          </Key>
+          <Property Name="SaleId" Type="Int32" Nullable="false" />
+          <Property Name="Isbn" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Self.FK_Sale_Book_Isbn" FromRole="Sale_Book" ToRole="Book" />
+          <Property Name="BookQuantitySold" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Sale" Relationship="BookSeekModel.FK_Sale_Book_SaleId" FromRole="Sale_Book" ToRole="Sale" />
+        </EntityType>
+        <Association Name="FK_Sale_Book_Isbn">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Sale_Book" Type="Self.Sale_Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Isbn" />
+            </Principal>
+            <Dependent Role="Sale_Book">
+              <PropertyRef Name="Isbn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Book" EntityType="Self.Book" />
+          <EntitySet Name="Sale_Book" EntityType="Self.Sale_Book" />
+          <AssociationSet Name="FK_Sale_Book_Isbn" Association="Self.FK_Sale_Book_Isbn">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Sale_Book" EntitySet="Sale_Book" />
+          </AssociationSet>
+          <EntitySet Name="Sale" EntityType="BookSeekModel.Sale" />
+          <AssociationSet Name="FK_Sale_Book_SaleId" Association="BookSeekModel.FK_Sale_Book_SaleId">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="Sale_Book" EntitySet="Sale_Book" />
+          </AssociationSet>
+          <EntitySet Name="Ledger" EntityType="BookSeekModel.Ledger" />
+          <AssociationSet Name="FK_Ledger_Isbn" Association="BookSeekModel.FK_Ledger_Isbn">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Ledger" EntitySet="Ledger" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransactionDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SaleStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Cash" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Change" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="ChargePrepaid" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="AdditionalRequired" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Sale_Book" Relationship="BookSeekModel.FK_Sale_Book_SaleId" FromRole="Sale" ToRole="Sale_Book" />
+        </EntityType>
+        <Association Name="FK_Sale_Book_SaleId">
+          <End Type="BookSeekModel.Sale" Role="Sale" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BookSeekModel.Sale_Book" Role="Sale_Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="SaleId" />
+            </Principal>
+            <Dependent Role="Sale_Book">
+              <PropertyRef Name="SaleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Ledger">
+          <Key>
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="TrackId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Isbn" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Book" Relationship="BookSeekModel.FK_Ledger_Isbn" FromRole="Ledger" ToRole="Book" />
+          <Property Name="TrackTag" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Ledger_Isbn">
+          <End Type="BookSeekModel.Book" Role="Book" Multiplicity="0..1" />
+          <End Type="BookSeekModel.Ledger" Role="Ledger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Isbn" />
+            </Principal>
+            <Dependent Role="Ledger">
+              <PropertyRef Name="Isbn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookSeekModelStoreContainer" CdmEntityContainer="Database">
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="BookSeekModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="BookStatus" ColumnName="BookStatus" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="BookQuantityOnHand" ColumnName="BookQuantityOnHand" />
+                <ScalarProperty Name="Isbn" ColumnName="Isbn" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+                <ScalarProperty Name="DateOfPublication" ColumnName="DateOfPublication" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sale_Book">
+            <EntityTypeMapping TypeName="BookSeekModel.Sale_Book">
+              <MappingFragment StoreEntitySet="Sale_Book">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="BookQuantitySold" ColumnName="BookQuantitySold" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="Isbn" ColumnName="Isbn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sale">
+            <EntityTypeMapping TypeName="BookSeekModel.Sale">
+              <MappingFragment StoreEntitySet="Sale">
+                <ScalarProperty Name="AdditionalRequired" ColumnName="AdditionalRequired" />
+                <ScalarProperty Name="ChargePrepaid" ColumnName="ChargePrepaid" />
+                <ScalarProperty Name="Change" ColumnName="Change" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="SaleStatus" ColumnName="SaleStatus" />
+                <ScalarProperty Name="TransactionDateTime" ColumnName="TransactionDateTime" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ledger">
+            <EntityTypeMapping TypeName="BookSeekModel.Ledger">
+              <MappingFragment StoreEntitySet="Ledger">
+                <ScalarProperty Name="TrackTag" ColumnName="TrackTag" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Isbn" ColumnName="Isbn" />
+                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

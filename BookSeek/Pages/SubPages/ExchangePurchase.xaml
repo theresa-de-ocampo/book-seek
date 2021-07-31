@@ -1,0 +1,217 @@
+﻿<Page x:Class="BookSeek.Pages.SubPages.ExchangePurchase"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookSeek.Pages.SubPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="648" d:DesignWidth="1152"
+      Background="{DynamicResource PrimaryBlueBrush}"
+      Title="Exchange Purchase" KeepAlive="False">
+
+    <Grid x:Name="ExchangePurchaseContainer">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource HeaderBorder}">
+            <Image Source="pack://application:,,,/Images/Home/book-seek.png" />
+        </Border>
+
+        <Grid x:Name="ContentWrapper" Grid.Row="1" Margin="110, 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="7*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+
+            <Border 
+                Grid.Row="0"
+                Style="{StaticResource MainTitleBorder}"
+                >
+                <Grid x:Name="ExchangePurchaseHeader">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{StaticResource MainTitleLabel}">Items to Exchange</Label>
+
+                    <Grid x:Name="ExchangePurchaseSearchSection" Grid.Column="1" Margin="0, 0, 0, 5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="0.6*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox 
+                            x:Name="ExchangePurchaseSearchTextBox" 
+                            Grid.Column="1" 
+                            Style="{StaticResource SearchTextBox}"
+                            TextChanged="ExchangePurchaseSearchTextBox_TextChanged" />
+
+                        <Button 
+                            x:Name="ExchangePurchaseClearSearchButton" 
+                            Grid.Column="2" 
+                            Style="{StaticResource SearchButton}" 
+                            Click="ExchangePurchaseClearSearchButton_Click"
+                            >
+                            <Image 
+                                Height="22" 
+                                Source="pack://application:,,,/Images/Others/close-icon.png"  />
+                        </Button>
+                    </Grid><!-- ExchangePurchaseSearchSection -->
+                </Grid><!-- ExchangePurchaseHeader -->
+            </Border>
+
+            <DataGrid 
+                x:Name="ExchangePurchaseDataGrid" 
+                Grid.Row="1"
+                CellEditEnding="ExchangePurchaseDataGrid_CellEditEnding"
+                Margin="0, 20, 0, 0"
+                >
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn 
+                        Header="Exchange" 
+                        Binding="{Binding Selected, Mode=TwoWay}" 
+                        Width="auto"
+                        >
+                        <DataGridCheckBoxColumn.CellStyle>
+                            <Style>
+                                <EventSetter Event="CheckBox.Checked" Handler="CheckBox_Checked"/>
+                                <EventSetter Event="CheckBox.Unchecked" Handler="CheckBox_Unchecked"/>
+                                <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridCheckBoxColumn.CellStyle>
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn 
+                        Header="ISBN" 
+                        Binding="{Binding Isbn}" 
+                        IsReadOnly="True"
+                        />
+                    <DataGridTextColumn
+                        Header="Item"
+                        Width="*" 
+                        Binding="{Binding Item}"
+                        IsReadOnly="True"
+                        >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                        Header="Quantity" 
+                        Binding="{Binding Quantity, Mode=TwoWay}" 
+                        Width="0.7*"
+                        IsReadOnly="False"
+                        />
+                    <DataGridTextColumn
+                        Header="Price" 
+                        Binding="{Binding Price, Mode=TwoWay}" 
+                        />
+                    <DataGridTextColumn
+                        Header="Amount"
+                        Width="*"  
+                        Binding="{Binding Amount, Mode=TwoWay}" 
+                        IsReadOnly="True"
+                        />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid x:Name="ButtonsAndComputationSection" Grid.Row="2" Margin="0, 20, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.3*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource FieldLabel}">BUDGET:</Label>
+                <TextBox 
+                    x:Name="BudgetTextBox" 
+                    Grid.Row="0" 
+                    Grid.Column="1"
+                    Style="{StaticResource FieldTextBox}"
+                    IsEnabled="False"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FieldLabel}">TOTAL AMOUNT:</Label>
+                <TextBox 
+                    x:Name="TotalAmountTextBox" 
+                    Grid.Row="1" 
+                    Grid.Column="1"
+                    Style="{StaticResource FieldTextBox}"
+                    IsEnabled="False"/>
+
+                <Label 
+                    Grid.Row="2" 
+                    Grid.Column="0" 
+                    Style="{StaticResource FieldLabel}"
+                    >
+                    ADDITIONAL REQUIRED:
+                </Label>
+                <TextBox 
+                    x:Name="AdditionalRequiredTextBox" 
+                    Grid.Row="2" 
+                    Grid.Column="1"
+                    Style="{StaticResource FieldTextBox}"
+                    IsEnabled="False"/>
+
+                <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FieldLabel}">CASH:</Label>
+                <TextBox 
+                    x:Name="CashTextBox" 
+                    Grid.Row="0" 
+                    Grid.Column="4"
+                    Style="{StaticResource FieldTextBox}"
+                    LostFocus="CashTextBox_LostFocus" />
+
+                <Label Grid.Row="1" Grid.Column="3" Style="{StaticResource FieldLabel}">CHANGE DUE:</Label>
+                <TextBox 
+                        x:Name="ChangeDueTextBox" 
+                        Grid.Row="1" 
+                        Grid.Column="4"
+                        Style="{StaticResource FieldTextBox}"
+                        IsEnabled="False"/>
+
+                <Grid x:Name="ButtonsSection" Grid.Row="0" Grid.Column="6" Grid.RowSpan="3" Margin="0, 0, 20, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="0.3*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <Button
+                        x:Name="DoneButton"
+                        Grid.Row="0"
+                        Style="{StaticResource TransactionButton}" 
+                        Background="{DynamicResource QuarternaryBlueBrush}"
+                        Click="DoneButton_Click"
+                        >
+                        DONE
+                    </Button>
+                    <Button 
+                        x:Name="CancelButton"
+                        Grid.Row="2" 
+                        Style="{StaticResource TransactionButton}" 
+                        Background="{DynamicResource PrimaryRedBrush}"
+                        Click="CancelButton_Click"
+                        >
+                        CANCEL
+                    </Button>
+                </Grid><!-- ButtonsSection -->
+            </Grid><!-- ButtonsAndComputationSection -->
+        </Grid><!-- ContentWrapper -->
+    </Grid><!-- ExchangePurchaseContainer -->
+</Page>

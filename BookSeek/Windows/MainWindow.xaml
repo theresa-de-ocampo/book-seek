@@ -1,0 +1,14 @@
+﻿<Window x:Class="BookSeek.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookSeek"
+        mc:Ignorable="d"
+        Title="BookSeek" Height="648" Width="1152" MinHeight="648" MinWidth="1152"
+        WindowStartupLocation="CenterScreen"
+        Icon="pack://application:,,,/Images/Others/app-icon.png">
+    <Grid>
+        <Frame x:Name="NavigationFrame" NavigationUIVisibility="Visible" />
+    </Grid>
+</Window>

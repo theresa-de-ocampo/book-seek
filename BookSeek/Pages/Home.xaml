@@ -1,0 +1,77 @@
+﻿<Page x:Class="BookSeek.Pages.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookSeek.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="648" d:DesignWidth="1152"
+      Title="Home">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0, 20, 0, 0" />
+            <Setter Property="Padding" Value="15" />
+
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="White" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+
+            <Style.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontFamily" Value="Comic Sans MS" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Margin" Value="0, 15, 0, 0" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.7*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="0.7*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.8*" />
+        </Grid.ColumnDefinitions>
+
+        <Image 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="5" 
+            Source="pack://application:,,,/Images/Home/book-seek.png"
+            Height="100"/>
+        <Button Grid.Row="2"  Grid.Column="1" Click="PosButton_Click">
+            <StackPanel>
+                <Image Source="pack://application:,,,/Images/Home/pos.png" />
+                <Label>POS</Label>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="2" Click="InventoryButton_Click">
+            <StackPanel>
+                <Image Source="pack://application:,,,/Images/Home/inventory.png" />
+                <Label>INVENTORY</Label>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="3" Click="SalesButton_Click">
+            <StackPanel>
+                <Image Source="pack://application:,,,/Images/Home/sales.png" />
+                <Label>AUDITS</Label>
+            </StackPanel>
+        </Button>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Images/Home/background.png" />
+        </Grid.Background>
+    </Grid>
+</Page>

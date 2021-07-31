@@ -1,0 +1,406 @@
+﻿<Page x:Class="BookSeek.Pages.Audits"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookSeek.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="648" d:DesignWidth="1152"
+      Background="{DynamicResource PrimaryBlueBrush}"
+      Title="Audits">
+
+    <Page.Resources>
+        <!-- EXPLICIT STYLES -->
+        <Style TargetType="Grid" x:Key="TallyGrid">
+            <Setter Property="Margin" Value="20, 0, 20, 20" />
+        </Style><!-- TallyGrid -->
+
+        <Style TargetType="Label" x:Key="TallyDescriptionLabel">
+            <Setter Property="FontFamily" Value="Glacial Indifference" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border 
+                            SnapsToDevicePixels="true" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"
+                            >
+                            <ContentPresenter 
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                RecognizesAccessKey="True"
+                                >
+                                <ContentPresenter.Effect>
+                                    <DropShadowEffect 
+                                        Color="Black" 
+                                        Direction="320" 
+                                        ShadowDepth="3" 
+                                        Opacity=".8" />
+                                </ContentPresenter.Effect>
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="20, 20, 0, 0" />
+                </Style>
+            </Style.Resources>
+        </Style><!-- TallyDescriptionLabel -->
+        
+        <Style TargetType="Label" x:Key="TallyNumberLabel">
+            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="50" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="0, 0, 20, 20" />
+                </Style>
+            </Style.Resources>
+        </Style><!-- TallyNumberLabel -->
+
+        <!-- EXTENDED STYLES -->
+        <Style 
+            TargetType="Label" 
+            x:Key="RedTallyDescriptionLabel" 
+            BasedOn="{StaticResource TallyDescriptionLabel}"
+            >
+            <Setter Property="Background" Value="#d97C64" />
+        </Style><!-- RedTallyDescriptionLabel -->
+
+        <Style TargetType="Label" x:Key="RedTallyNumberLabel" BasedOn="{StaticResource TallyNumberLabel}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 1">
+                        <GradientStop Color="#f65538" Offset="0.0" />
+                        <GradientStop Color="#c21930" Offset="0.8" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style><!-- RedTallyNumberLabel -->
+        
+        <Style 
+            TargetType="Label" 
+            x:Key="BlueTallyDescriptionLabel" 
+            BasedOn="{StaticResource TallyDescriptionLabel}"
+            >
+            <Setter Property="Background" Value="#63a4ff" />
+        </Style><!-- BlueTallyDescriptionLabel -->
+
+        <Style TargetType="Label" x:Key="BlueTallyNumberLabel" BasedOn="{StaticResource TallyNumberLabel}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 1">
+                        <GradientStop Color="#009ffd" Offset="0.0" />
+                        <GradientStop Color="#045de9" Offset="0.8" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style><!-- BlueTallyNumberLabel -->
+        
+        <Style 
+            TargetType="Label" 
+            x:Key="GrayTallyDescriptionLabel" 
+            BasedOn="{StaticResource TallyDescriptionLabel}"
+            >
+            <Setter Property="Background" Value="#b8c6db" />
+        </Style><!-- GrayTallyDescriptionLabel -->
+
+        <Style TargetType="Label" x:Key="GrayTallyNumberLabel" BasedOn="{StaticResource TallyNumberLabel}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 1">
+                        <GradientStop Color="#9dc5c3" Offset="0.0" />
+                        <GradientStop Color="#2f4353" Offset="0.8" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style><!-- GrayTallyNumberLabel -->
+    </Page.Resources>
+
+    <Grid x:Name="AuditsContainer">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource HeaderBorder}">
+            <Image Source="pack://application:,,,/Images/Home/book-seek.png" />
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Margin="20">
+            <Grid x:Name="ContentContainer">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="0.3*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid x:Name="SalesSection" Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="440" />
+                    </Grid.RowDefinitions>
+
+                    <Border 
+                        Grid.Row="0" 
+                        Style="{StaticResource MainTitleBorder}" 
+                        Margin="10, 0, 10, 20"
+                        >
+                        <Grid x:Name="SalesHeader">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Style="{StaticResource MainTitleLabel}">Sales History</Label>
+
+                            <Grid x:Name="SalesSearchSection" Grid.Column="1" Margin="0, 0, 0, 5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="0.6*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox 
+                                    x:Name="SalesSearchTextBox" 
+                                    Grid.Column="1" 
+                                    Style="{StaticResource SearchTextBox}"
+                                    TextChanged="SalesSearchTextBox_TextChanged" />
+
+                                <Button 
+                                    x:Name="SalesClearSearchButton" 
+                                    Grid.Column="2" 
+                                    Style="{StaticResource SearchButton}" 
+                                    Click="SalesClearSearchButton_Click"
+                                    >
+                                    <Image 
+                                        Height="22" 
+                                        Source="pack://application:,,,/Images/Others/close-icon.png"  />
+                                </Button>
+                            </Grid><!-- SalesSearchSection -->
+                        </Grid><!-- SalesHeader -->
+                    </Border>
+                    
+                    <DataGrid 
+                        x:Name="SalesDataGrid"
+                        Grid.Row="2" 
+                        IsReadOnly="True"
+                        Margin="10, 0, 10, 20"
+                        >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding SaleId}" Width="0.2*" />
+                            <DataGridTextColumn 
+                                Header="Date and Time" 
+                                Binding="{Binding TransactionDateTime, StringFormat='MMMM dd, yyyy hh:mm tt'}"
+                                Width="auto"/>
+                            <DataGridTextColumn Header="Purchases" Binding="{Binding Purchases}" Width="*" />
+
+                            <DataGridTemplateColumn Width="0.3*">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>Return</TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button 
+                                            x:Name="ReturnButton"
+                                            Style="{StaticResource ImageButton}" 
+                                            Tag="{Binding SaleId}" 
+                                            Click="ReturnButton_Click"
+                                            IsEnabled="{Binding ValidForReturn}"
+                                            ToolTip="{Binding ToolTipMessage}"
+                                            >
+                                            <Image 
+                                                Source="pack://application:,,,/Images/Audits/return-icon.png" 
+                                                />
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>Print</TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button 
+                                            x:Name="PrintButton"
+                                            Style="{StaticResource ImageButton}" 
+                                            Tag="{Binding SaleId}"
+                                            Click="PrintButton_Click"
+                                            >
+                                            <Image 
+                                                Source="pack://application:,,,/Images/Audits/print-icon.png" 
+                                                />
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid><!-- SalesDataGrid -->
+                </Grid><!-- SalesSection -->
+
+                <Grid x:Name="LedgerSection" Grid.Row="1" Grid.Column="0" Margin="0, 30, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="440" />
+                    </Grid.RowDefinitions>
+
+                    <Border 
+                        Grid.Row="0" 
+                        Style="{StaticResource MainTitleBorder}" 
+                        Margin="10, 0, 10, 20"
+                        >
+                        <Grid x:Name="LedgerHeader">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Style="{StaticResource MainTitleLabel}">Ledger</Label>
+
+                            <Grid x:Name="LedgerSearchSection" Grid.Column="1" Margin="0, 0, 0, 5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="0.6*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox 
+                                    x:Name="LedgerSearchTextBox" 
+                                    Grid.Column="1" 
+                                    Style="{StaticResource SearchTextBox}"
+                                    TextChanged="LedgerSearchTextBox_TextChanged" />
+
+                                <Button 
+                                    x:Name="LedgerClearSearchButton" 
+                                    Grid.Column="2" 
+                                    Style="{StaticResource SearchButton}" 
+                                    Click="LedgerClearSearchButton_Click"
+                                    >
+                                    <Image 
+                                        Height="22" 
+                                        Source="pack://application:,,,/Images/Others/close-icon.png"  />
+                                </Button>
+                            </Grid><!-- LedgerSearchSection -->
+                        </Grid><!-- LedgerHeader -->
+                    </Border>
+
+                    <DataGrid 
+                        x:Name="LedgerDataGrid" 
+                        Grid.Row="1" 
+                        IsReadOnly="True"
+                        Margin="10, 0, 10, 0"
+                        >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding TrackId}" />
+                            <DataGridTextColumn Header="Tag" Binding="{Binding TrackTag}" />
+                            <DataGridTextColumn Header="Isbn" Binding="{Binding Isbn}"  />
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+                            <DataGridTextColumn 
+                                Header="Date and Time" 
+                                Binding="{Binding EventDateTime, StringFormat='MMMM dd, yyyy hh:mm tt'}" 
+                                Width="auto" />
+                        </DataGrid.Columns>
+                    </DataGrid><!-- LedgerDataGrid -->
+                </Grid><!-- LedgerSection -->
+
+                <Grid x:Name="TallySection" Grid.Row="0" Grid.Column="1" Style="{StaticResource TallyGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="0.2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="0.2*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="EarningsTodaySection" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Label 
+                            Grid.Row="0" 
+                            Style="{StaticResource RedTallyDescriptionLabel}"
+                            >
+                            Today's Earnings
+                        </Label>
+                        <Label 
+                            x:Name="EarningsTodayLabel"
+                            Grid.Row="1" 
+                            Style="{StaticResource RedTallyNumberLabel}"
+                            />
+                    </Grid><!-- EarningsTodaySection -->
+                    
+                    <Grid x:Name="SalesTodaySection" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Label 
+                            Grid.Row="0" 
+                            Style="{StaticResource GrayTallyDescriptionLabel}"
+                            >
+                            Sales Today
+                        </Label>
+                        <Label 
+                            x:Name="SalesTodayLabel"
+                            Grid.Row="1" 
+                            Style="{StaticResource GrayTallyNumberLabel}"
+                            />
+                    </Grid><!-- SalesTodaySection -->
+                    
+                    <Grid x:Name="BestSellerSection" Grid.Row="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Label 
+                            Grid.Row="0" 
+                            Style="{StaticResource BlueTallyDescriptionLabel}"
+                            >
+                            All Time Best Seller
+                        </Label>
+                        <Label 
+                            x:Name="BestSellerLabel"
+                            Grid.Row="1" 
+                            Style="{StaticResource BlueTallyNumberLabel}"
+                            FontSize="20"
+                            />
+                    </Grid><!-- BestSellerSection -->
+                </Grid><!-- TallySection -->
+            </Grid><!-- ContentContainer -->
+        </ScrollViewer>
+    </Grid><!-- AuditsContainer -->
+</Page>

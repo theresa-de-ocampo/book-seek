@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="PrimaryBlueColor">#053559</Color>
+    <Color x:Key="SecondaryBlueColor">#6d9ab9</Color>
+    <Color x:Key="TertiaryBlueColor">#1da2ff</Color>
+    <Color x:Key="QuarternaryBlueColor">#1695EE</Color>
+    <Color x:Key="HeaderStartBlueColor">#77e5e0</Color>
+    <Color x:Key="HeaderEndBlueColor">#087390</Color>
+    <Color x:Key="PrimaryRedColor">#dc5252</Color>
+    <Color x:Key="PrimaryYellowColor">#ffe1a3</Color>
+    <Color x:Key="PrimaryGrayColor">#2d383c</Color>
+
+    <SolidColorBrush x:Key="PrimaryBlueBrush" Color="{DynamicResource PrimaryBlueColor}"/>
+    <SolidColorBrush x:Key="SecondaryBlueBrush" Color="{DynamicResource SecondaryBlueColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="TertiaryBlueBrush" Color="{DynamicResource TertiaryBlueColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="QuarternaryBlueBrush" Color="{DynamicResource QuarternaryBlueColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="HeaderStartBlueBrush" Color="{DynamicResource HeaderStartBlueColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="HeaderEndBlueBrush" Color="{DynamicResource HeaderEndBlueColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryRedBrush" Color="{DynamicResource PrimaryRedColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryYellowBrush" Color="{DynamicResource PrimaryYellowColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryGrayBrush" Color="{DynamicResource PrimaryGrayColor}"></SolidColorBrush>
+</ResourceDictionary>
